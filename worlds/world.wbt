@@ -1,0 +1,299 @@
+#VRML_SIM R2021a utf8
+WorldInfo {
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.3169221012339434 -0.9103931219115182 -0.2659788437557802 1.5121465277952983
+  position -1.2141354268102895 0.9123874554430459 0.2610861543934429
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+Fluid {
+  translation 0 0.05 0
+  children [
+    Shape {
+      appearance PBRAppearance {
+        transparency 0.5
+      }
+      geometry Box {
+        size 1 0.1 1
+      }
+    }
+  ]
+  boundingObject Box {
+    size 1 0.1 1
+  }
+  locked TRUE
+}
+Robot {
+  translation 0 0.11 0
+  children [
+    Propeller {
+      shaftAxis 0 0 1
+      centerOfThrust 0.11 -0.025 0
+      device RotationalMotor {
+        name "font_motor"
+      }
+      fastHelix Solid {
+        translation 0.11 -0.025 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry DEF Motor_Shape Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation 0.11 -0.025 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Propeller {
+      shaftAxis 0 0 -1
+      centerOfThrust -0.11 -0.025 0
+      device RotationalMotor {
+        name "rear_motor"
+      }
+      fastHelix Solid {
+        translation -0.11 -0.025 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation -0.11 -0.025 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Propeller {
+      centerOfThrust 0 -0.025 -0.11
+      device RotationalMotor {
+        name "left_motor"
+      }
+      fastHelix Solid {
+        translation 0 -0.025 -0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation 0 -0.025 -0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Propeller {
+      shaftAxis -1 0 0
+      centerOfThrust 0 -0.025 0.11
+      device RotationalMotor {
+        name "right_motor"
+      }
+      fastHelix Solid {
+        translation 0 -0.025 0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation 0 -0.025 0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Solid {
+      children [
+        Shape {
+          appearance Appearance {
+          }
+          geometry Box {
+            size 0.2 0.05 0.2
+          }
+        }
+      ]
+    }
+    Camera {
+      translation 0 0.05 0
+      rotation 0 1 0 -1.5707953071795862
+      children [
+        Shape {
+          appearance PBRAppearance {
+          }
+          geometry Box {
+            size 0.05 0.01 0.01
+          }
+        }
+      ]
+      width 480
+      height 320
+    }
+    InertialUnit {
+      name "inertia_unit"
+    }
+    Gyro {
+    }
+    GPS {
+    }
+  ]
+  immersionProperties [
+    DEF Board_Imm ImmersionProperties {
+      fluidName "fluid"
+      viscousResistanceForceCoefficient 3
+      viscousResistanceTorqueCoefficient 1
+    }
+  ]
+  boundingObject Box {
+    size 0.2 0.05 0.2
+  }
+  physics Physics {
+    density -1
+    mass 0.8
+    centerOfMass [
+      0 -0.025 0
+    ]
+    damping Damping {
+      linear 0.3
+      angular 0.3
+    }
+  }
+  controller "UAV_controller"
+}
+Transform {
+  translation 0.7 0.18 0
+  children [
+    Solid {
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "traffic_parking.png"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.03 0.03 0.03
+          }
+        }
+      ]
+    }
+    Solid {
+      translation 0 0 -0.28
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "traffic_parking.png"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.03 0.03 0.03
+          }
+        }
+      ]
+      name "solid(1)"
+    }
+    Solid {
+      translation 0 0 -0.14
+      children [
+        Shape {
+          appearance Appearance {
+            texture ImageTexture {
+              url [
+                "traffic_parking.png"
+              ]
+            }
+          }
+          geometry Box {
+            size 0.03 0.03 0.03
+          }
+        }
+      ]
+      name "solid(2)"
+    }
+  ]
+}
