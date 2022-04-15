@@ -11,15 +11,20 @@ from locomotion import Locomotion
 # 2. 完成方向控制算法
 # 3. 对接手柄控制
 # 4. duplicate boats
-# 设计对接算法：ArUco 识别、GPS 位姿估计
+# 设计对接算法：ArUco 识别
+# GPS 位姿估计
 # 5. 实现 PID 对接
 # 6. 分析：推进器力矩、对接碰撞力
 # 7. 滤波算法对传感器降噪
 
-def sensor_builder(name, timestep):
-    sensor = robot.getDevice(name)
-    sensor.enable(timestep)
-    return sensor
+def sensor_factory(robot, timestep):
+    def sensor_builder(name):
+        sensor = robot.getDevice(name)
+        sensor.enable(timestep)
+        return sensor
+
+    return sensor_builder
+
 
 use_gamepad = True
 use_aruco = False
@@ -38,18 +43,14 @@ for name in motor_name:
     motor.setVelocity(0.0)
     motors.append(robot.getDevice(name))
 
+# Sensors
+sensor_builder = sensor_factory(robot, timestep)
+gps = sensor_builder("gps")
+gyro = sensor_builder("gyro")
+inertial_unit = sensor_builder("inertia_unit")
+camera = sensor_builder("camera")  # (240, 320, 3)
 
-# GPS
-gps = sensor_builder("gps", timestep)
-
-# Gyro
-gyro = sensor_builder("gyro", timestep)
-
-# Inertial Unit
-inertial_unit = sensor_builder("inertia_unit", timestep)
-
-# Camera
-camera = sensor_builder("camera", timestep)  # (240, 320, 3)
+# Camera params
 f = camera.getFocalLength()
 cx = camera.getWidth() / 2
 cy = camera.getHeight() / 2
@@ -67,9 +68,7 @@ locomotion = Locomotion(robot, motors)
 
 # Main loop:
 while robot.step(timestep) != -1:
-    # Read the sensors:
-    # Enter here functions to read sensor data, like:
-    #  val = ds.getValue()
+
     if use_gamepad:
         lin_speed, ang_speed, e_stop = gamepad.get_command()
         locomotion.forward(lin_speed[0])
@@ -81,12 +80,12 @@ while robot.step(timestep) != -1:
     
     if use_aruco:
         corners, ids, _ = cv2.aruco.detectMarkers(image, this_aruco_dictionary, parameters=this_aruco_parameters)
-        #print(corners)
+        # print(corners)
 
         if len(corners) > 0:
             cv2.aruco.drawDetectedMarkers(image, corners, ids)
             rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.03, K, distCoeffs)
-            #K, distCoeffs = cv2.aruco.calibrateCameraAruco(corners, ids, 3, board, (480, 320,))
+            # K, distCoeffs = cv2.aruco.calibrateCameraAruco(corners, ids, 3, board, (480, 320,))
 
             
     # cv2.imshow("window", image)
