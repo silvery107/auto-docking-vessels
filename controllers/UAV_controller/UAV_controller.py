@@ -21,6 +21,9 @@ def sensor_builder(name, timestep):
     sensor.enable(timestep)
     return sensor
 
+use_gamepad = True
+use_aruco = False
+
 # create the Robot instance.
 robot = Robot()
 # get the time step of the current world.
@@ -54,7 +57,9 @@ this_aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_TAG)
 this_aruco_parameters = cv2.aruco.DetectorParameters_create()
 
 # Gamepad
-gamepad = Gamepad(1, 1, 1)
+if use_gamepad:
+    gamepad = Gamepad(1, 1, 1)
+
 locomotion = Locomotion(robot, motors)
 
 # Main loop:
@@ -62,11 +67,11 @@ while robot.step(timestep) != -1:
     # Read the sensors:
     # Enter here functions to read sensor data, like:
     #  val = ds.getValue()
-
-    lin_speed, ang_speed, e_stop = gamepad.get_command()
-    locomotion.forward(lin_speed[0])
-    locomotion.moveRight(lin_speed[1])
-    locomotion.turnLeft(ang_speed)
+    if use_gamepad:
+        lin_speed, ang_speed, e_stop = gamepad.get_command()
+        locomotion.forward(lin_speed[0])
+        locomotion.moveRight(lin_speed[1])
+        locomotion.turnLeft(ang_speed)
 
     # for motor in motors:
     #     motor.setVelocity(-0.1)
@@ -75,17 +80,18 @@ while robot.step(timestep) != -1:
     image = cv2.rotate(cv2.flip(image, 0), cv2.ROTATE_90_CLOCKWISE)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR).astype(np.uint8)
     
-    corners, ids, _ = cv2.aruco.detectMarkers(image, this_aruco_dictionary, parameters=this_aruco_parameters)
-    #print(corners)
+    if use_aruco:
+        corners, ids, _ = cv2.aruco.detectMarkers(image, this_aruco_dictionary, parameters=this_aruco_parameters)
+        #print(corners)
 
-    if len(corners) > 0:
-        cv2.aruco.drawDetectedMarkers(image, corners, ids)
-        rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.03, K, distCoeffs)
-        #K, distCoeffs = cv2.aruco.calibrateCameraAruco(corners, ids, 3, board, (480, 320,))
+        if len(corners) > 0:
+            cv2.aruco.drawDetectedMarkers(image, corners, ids)
+            rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.03, K, distCoeffs)
+            #K, distCoeffs = cv2.aruco.calibrateCameraAruco(corners, ids, 3, board, (480, 320,))
 
             
     # cv2.imshow("window", image)
     # cv2.waitKey(1)
-
-gamepad.stop()
+if use_gamepad:
+    gamepad.stop()
 # Enter here exit cleanup code.
