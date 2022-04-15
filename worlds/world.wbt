@@ -3,8 +3,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.3169221012339434 -0.9103931219115182 -0.2659788437557802 1.5121465277952983
-  position -1.2141354268102895 0.9123874554430459 0.2610861543934429
+  orientation -0.2731371481219844 -0.9148862230972054 -0.2972865572183167 1.7167502641171861
+  position -1.7728735908625846 1.4618101007074717 -0.0069325994101094805
 }
 TexturedBackground {
 }
@@ -30,16 +30,17 @@ Fluid {
   locked TRUE
 }
 Robot {
-  translation 0 0.11 0
+  translation 0 0.09 0
   children [
     Propeller {
       shaftAxis 0 0 1
-      centerOfThrust 0.11 -0.025 0
+      centerOfThrust 0.11 -0.04 0
+      torqueConstants 0 0
       device RotationalMotor {
         name "font_motor"
       }
       fastHelix Solid {
-        translation 0.11 -0.025 0
+        translation 0.11 -0.04 0
         rotation 1 0 0 -1.5707953071795862
         children [
           Shape {
@@ -54,7 +55,7 @@ Robot {
         name "solid(1)"
       }
       slowHelix Solid {
-        translation 0.11 -0.025 0
+        translation 0.11 -0.04 0
         rotation 1 0 0 -1.5707953071795862
         children [
           Shape {
@@ -71,13 +72,14 @@ Robot {
       }
     }
     Propeller {
-      shaftAxis 0 0 -1
-      centerOfThrust -0.11 -0.025 0
+      shaftAxis 0 0 1
+      centerOfThrust -0.11 -0.04 0
+      torqueConstants 0 0
       device RotationalMotor {
         name "rear_motor"
       }
       fastHelix Solid {
-        translation -0.11 -0.025 0
+        translation -0.11 -0.04 0
         rotation 1 0 0 -1.5707953071795862
         children [
           Shape {
@@ -92,7 +94,7 @@ Robot {
         name "solid(1)"
       }
       slowHelix Solid {
-        translation -0.11 -0.025 0
+        translation -0.11 -0.04 0
         rotation 1 0 0 -1.5707953071795862
         children [
           Shape {
@@ -109,12 +111,13 @@ Robot {
       }
     }
     Propeller {
-      centerOfThrust 0 -0.025 -0.11
+      centerOfThrust 0 -0.04 -0.11
+      torqueConstants 0 0
       device RotationalMotor {
         name "left_motor"
       }
       fastHelix Solid {
-        translation 0 -0.025 -0.11
+        translation 0 -0.04 -0.11
         rotation 0 0 1 -1.5707953071795862
         children [
           Shape {
@@ -129,7 +132,7 @@ Robot {
         name "solid(1)"
       }
       slowHelix Solid {
-        translation 0 -0.025 -0.11
+        translation 0 -0.04 -0.11
         rotation 0 0 1 -1.5707953071795862
         children [
           Shape {
@@ -146,13 +149,13 @@ Robot {
       }
     }
     Propeller {
-      shaftAxis -1 0 0
-      centerOfThrust 0 -0.025 0.11
+      centerOfThrust 0 -0.04 0.11
+      torqueConstants 0 0
       device RotationalMotor {
         name "right_motor"
       }
       fastHelix Solid {
-        translation 0 -0.025 0.11
+        translation 0 -0.04 0.11
         rotation 0 0 1 -1.5707953071795862
         children [
           Shape {
@@ -167,7 +170,7 @@ Robot {
         name "solid(1)"
       }
       slowHelix Solid {
-        translation 0 -0.025 0.11
+        translation 0 -0.04 0.11
         rotation 0 0 1 -1.5707953071795862
         children [
           Shape {
@@ -229,13 +232,13 @@ Robot {
   }
   physics Physics {
     density -1
-    mass 0.8
+    mass 1.2
     centerOfMass [
-      0 -0.025 0
+      0 -0.04 0
     ]
     damping Damping {
-      linear 0.3
-      angular 0.3
+      linear 0.5
+      angular 0.5
     }
   }
   controller "UAV_controller"
@@ -249,7 +252,7 @@ Transform {
           appearance Appearance {
             texture ImageTexture {
               url [
-                "traffic_parking.png"
+                "ArUco_6x6_0.png"
               ]
             }
           }
@@ -266,7 +269,7 @@ Transform {
           appearance Appearance {
             texture ImageTexture {
               url [
-                "traffic_parking.png"
+                "ArUco_6x6_0.png"
               ]
             }
           }
@@ -284,7 +287,7 @@ Transform {
           appearance Appearance {
             texture ImageTexture {
               url [
-                "traffic_parking.png"
+                "ArUco_6x6_0.png"
               ]
             }
           }
