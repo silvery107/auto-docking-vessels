@@ -50,7 +50,10 @@ inertial_unit = sensor_builder("inertia_unit", timestep)
 
 # Camera
 camera = sensor_builder("camera", timestep)  # (240, 320, 3)
-K = np.array([265, 0, 240, 0, 265, 160, 0, 0, 1]).reshape((3,3))
+f = camera.getFocalLength()
+cx = camera.getWidth() / 2
+cy = camera.getHeight() / 2
+K = np.array([f, 0, cx, 0, f, cy, 0, 0, 1]).reshape((3,3))
 distCoeffs = np.zeros(5)
 ARUCO_TAG = cv2.aruco.DICT_6X6_50
 this_aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_TAG)
@@ -70,15 +73,11 @@ while robot.step(timestep) != -1:
     if use_gamepad:
         lin_speed, ang_speed, e_stop = gamepad.get_command()
         locomotion.forward(lin_speed[0])
-        locomotion.moveRight(lin_speed[1])
-        locomotion.turnLeft(ang_speed)
+        locomotion.moveLeft(lin_speed[1])
+        locomotion.turnRight(ang_speed)
 
-    # for motor in motors:
-    #     motor.setVelocity(-0.1)
-        
-    image = np.array(camera.getImageArray()).astype(np.uint8)  # (320, 480, 3)
-    image = cv2.rotate(cv2.flip(image, 0), cv2.ROTATE_90_CLOCKWISE)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR).astype(np.uint8)
+    # (320, 480, 3)
+    image = np.frombuffer(camera.getImage(), np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))[:,:,:3].copy()
     
     if use_aruco:
         corners, ids, _ = cv2.aruco.detectMarkers(image, this_aruco_dictionary, parameters=this_aruco_parameters)
