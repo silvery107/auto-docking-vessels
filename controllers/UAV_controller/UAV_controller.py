@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 from gamepad_reader import Gamepad
 from locomotion import Locomotion
+from teleop_control import Teleop
 
 # TODO
 # 1. 换模型
@@ -26,7 +27,7 @@ def sensor_factory(robot, timestep):
     return sensor_builder
 
 
-use_gamepad = True
+use_gamepad = False
 use_aruco = False
 
 # create the Robot instance.
@@ -60,20 +61,31 @@ ARUCO_TAG = cv2.aruco.DICT_6X6_50
 this_aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_TAG)
 this_aruco_parameters = cv2.aruco.DetectorParameters_create()
 
-# Gamepad
+# Gamepad and Keyboard
 if use_gamepad:
     gamepad = Gamepad(1, 1, 1)
+else:
+    keyboard = robot.getKeyboard()
+    keyboard.enable(timestep)
+    teleop = Teleop(robot, keyboard)
 
+# Locomotion
 locomotion = Locomotion(robot, motors)
+lin_speed = [0,0,0]
+ang_speed = 0
+e_stop = False
 
 # Main loop:
 while robot.step(timestep) != -1:
 
     if use_gamepad:
         lin_speed, ang_speed, e_stop = gamepad.get_command()
-        locomotion.forward(lin_speed[0])
-        locomotion.moveLeft(lin_speed[1])
-        locomotion.turnRight(ang_speed)
+    else:
+        lin_speed, ang_speed, e_stop = teleop.get_command()
+
+    locomotion.forward(lin_speed[0])
+    locomotion.moveLeft(lin_speed[1])
+    locomotion.turnRight(ang_speed)
 
     # (320, 480, 3)
     image = np.frombuffer(camera.getImage(), np.uint8).reshape((camera.getHeight(), camera.getWidth(), 4))[:,:,:3].copy()
@@ -92,4 +104,6 @@ while robot.step(timestep) != -1:
     # cv2.waitKey(1)
 if use_gamepad:
     gamepad.stop()
+else:
+    keyboard.disable()
 # Enter here exit cleanup code.
