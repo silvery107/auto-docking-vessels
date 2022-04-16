@@ -12,11 +12,14 @@ from teleop_control import Teleop
 # 2. 完成方向控制算法
 # 3. 对接手柄控制
 # 4. duplicate boats
-# 设计对接算法：ArUco 识别
+# 设计对接算法：
+# ArUco 识别
 # GPS 位姿估计
+# 读论文, 了解下算法
 # 5. 实现 PID 对接
 # 6. 分析：推进器力矩、对接碰撞力
 # 7. 滤波算法对传感器降噪
+
 
 def sensor_factory(robot, timestep):
     def sensor_builder(name):
