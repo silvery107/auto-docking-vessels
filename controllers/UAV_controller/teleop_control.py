@@ -36,4 +36,4 @@ class Teleop:
     def get_command(self):
         self.key = self.keyboard.getKey()
         self.keyboardControl(self.key)
-        return (self.vx, self.vy, 0), self.wz, self._estop_flagged
+        return [self.vx, self.vy, 0], self.wz, self._estop_flagged

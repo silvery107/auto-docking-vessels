@@ -109,7 +109,7 @@ class Gamepad:
             self.vx, self.vy, self.wz = 0., 0., 0.
 
     def get_command(self):
-        return (self.vx, self.vy, 0), self.wz, self._estop_flagged
+        return [self.vx, self.vy, 0], self.wz, self._estop_flagged
 
     # def get_gait(self):
     #     return self._gait
