@@ -15,12 +15,10 @@ from locomotion import Locomotion
 from teleop_control import Teleop
 from pid_control import PID_Controller
 from moving_window_filter import MovingWindowFilter
-from orientation_tools import rot_to_rpy
 
 # TODO
 # TODO 写一下 3PD 控制和GPS+IMU 融合卡尔曼滤波
 # TODO 直接滤波传感器吧，然后做几组不同初始位置到达预定对接地点的视频和数据图
-
 
 def sensor_factory(robot, timestep):
     def sensor_builder(name):
@@ -105,8 +103,6 @@ while robot.step(timestep) != -1:
     locomotion.moveLeft(lin_speed[1])
     locomotion.turnRight(ang_speed)
 
-    # cv2.imshow("window", image)
-    # cv2.waitKey(1)
 if use_gamepad:
     gamepad.stop()
 else:

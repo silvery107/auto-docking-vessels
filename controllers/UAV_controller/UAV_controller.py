@@ -72,8 +72,6 @@ ARUCO_TAG = cv2.aruco.DICT_6X6_50
 aruco_dictionary = cv2.aruco.Dictionary_get(ARUCO_TAG)
 aruco_parameters = cv2.aruco.DetectorParameters_create()
 
-print(cameraMatrix)
-
 # Gamepad and Keyboard
 if use_gamepad:
     gamepad = Gamepad(1, 1, 1)
