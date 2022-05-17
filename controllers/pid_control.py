@@ -7,6 +7,7 @@ class PID_Controller:
         self.err_int = 0.0
     
     def apply(self, err):
+        err = float(err)
         self.err_int += err
         u = self.Kp * err + self.Kd * (err-self.err_last) + self.Ki * self.err_int
         self.err_last = err

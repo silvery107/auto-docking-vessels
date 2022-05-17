@@ -3,34 +3,34 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.2731371481219844 -0.9148862230972054 -0.2972865572183167 1.7167502641171861
-  position -1.7728735908625846 1.4618101007074717 -0.0069325994101094805
+  orientation -0.31010236144204273 -0.9153676486757836 -0.2567851109115091 1.4394454657385762
+  position -3.2390149460698505 2.2208910478590727 1.0735940363928458
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
+  floorSize 1.5 1.5
 }
 Fluid {
   translation 0 0.05 0
   children [
-    Shape {
+    DEF pool Shape {
       appearance PBRAppearance {
         transparency 0.5
       }
       geometry Box {
-        size 1 0.1 1
+        size 1.5 0.1 1.5
       }
     }
   ]
-  boundingObject Box {
-    size 1 0.1 1
-  }
+  boundingObject USE pool
   locked TRUE
 }
 Robot {
-  translation 0 0.09 0
+  translation -0.528843 0.09 0.0267586
+  rotation 0 1 0 0.2617989999999993
   children [
     Propeller {
       shaftAxis 0 0 -1
@@ -213,6 +213,10 @@ Robot {
       ]
       width 480
       height 320
+      focus Focus {
+        focalLength 0.01
+        maxFocalDistance 10
+      }
     }
     InertialUnit {
       name "inertia_unit"
@@ -245,60 +249,257 @@ Robot {
   }
   controller "UAV_controller"
 }
-Transform {
-  translation 0.7 0.18 0
+Robot {
+  translation 0.393314 0.09 -0.0467798
+  rotation 0 1 0 -2.8797953071795863
   children [
+    Transform {
+      translation 0.34 0.1 -0.05
+      children [
+        Solid {
+          translation -0.34 -0.05 0.05
+          children [
+            Shape {
+              appearance Appearance {
+                texture ImageTexture {
+                  url [
+                    "ArUco_6x6_0.png"
+                  ]
+                  repeatS FALSE
+                  repeatT FALSE
+                  filtering 1
+                }
+              }
+              geometry Box {
+                size 0.03 0.03 0.03
+              }
+            }
+          ]
+          name "solid(1)"
+        }
+        Solid {
+          translation -0.34 -0.05 0.08
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.03 0.03 0.03
+              }
+            }
+          ]
+          name "solid(2)"
+        }
+        Solid {
+          translation -0.34 -0.05 0.02
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.03 0.03 0.03
+              }
+            }
+          ]
+          name "solid(3)"
+        }
+      ]
+    }
+    Propeller {
+      shaftAxis 0 0 -1
+      centerOfThrust 0.11 -0.04 0
+      torqueConstants 0 0
+      device RotationalMotor {
+        name "font_motor"
+      }
+      fastHelix Solid {
+        translation 0.11 -0.04 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry DEF Motor_Shape Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation 0.11 -0.04 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Propeller {
+      shaftAxis 0 0 -1
+      centerOfThrust -0.11 -0.04 0
+      torqueConstants 0 0
+      device RotationalMotor {
+        name "rear_motor"
+      }
+      fastHelix Solid {
+        translation -0.11 -0.04 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation -0.11 -0.04 0
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Propeller {
+      shaftAxis -1 0 0
+      centerOfThrust 0 -0.04 -0.11
+      torqueConstants 0 0
+      device RotationalMotor {
+        name "left_motor"
+      }
+      fastHelix Solid {
+        translation 0 -0.04 -0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation 0 -0.04 -0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
+    Propeller {
+      shaftAxis -1 0 0
+      centerOfThrust 0 -0.04 0.11
+      torqueConstants 0 0
+      device RotationalMotor {
+        name "right_motor"
+      }
+      fastHelix Solid {
+        translation 0 -0.04 0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+      slowHelix Solid {
+        translation 0 -0.04 0.11
+        rotation 0 0 1 -1.5707953071795862
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0.5
+            }
+            geometry Capsule {
+              height 0.015
+              radius 0.015
+            }
+          }
+        ]
+        name "solid(1)"
+      }
+    }
     Solid {
       children [
         Shape {
           appearance Appearance {
-            texture ImageTexture {
-              url [
-                "ArUco_6x6_0.png"
-              ]
-            }
           }
           geometry Box {
-            size 0.03 0.03 0.03
+            size 0.2 0.05 0.2
           }
         }
       ]
     }
-    Solid {
-      translation 0 0 -0.28
-      children [
-        Shape {
-          appearance Appearance {
-            texture ImageTexture {
-              url [
-                "ArUco_6x6_0.png"
-              ]
-            }
-          }
-          geometry Box {
-            size 0.03 0.03 0.03
-          }
-        }
-      ]
-      name "solid(1)"
+    GPS {
+      name "gps_station"
     }
-    Solid {
-      translation 0 0 -0.14
-      children [
-        Shape {
-          appearance Appearance {
-            texture ImageTexture {
-              url [
-                "ArUco_6x6_0.png"
-              ]
-            }
-          }
-          geometry Box {
-            size 0.03 0.03 0.03
-          }
-        }
-      ]
-      name "solid(2)"
+    InertialUnit {
+      name "inertial_unit_station"
     }
   ]
+  name "robot(1)"
+  immersionProperties [
+    DEF Board_Imm ImmersionProperties {
+      fluidName "fluid"
+      viscousResistanceForceCoefficient 3
+      viscousResistanceTorqueCoefficient 1
+    }
+  ]
+  boundingObject Box {
+    size 0.2 0.05 0.2
+  }
+  physics Physics {
+    density -1
+    mass 1.2
+    centerOfMass [
+      0 -0.04 0
+    ]
+    damping Damping {
+      linear 0.5
+      angular 0.5
+    }
+  }
+  controller "balance_controller"
 }
