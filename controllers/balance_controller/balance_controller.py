@@ -72,8 +72,8 @@ ang_speed = 0
 e_stop = False
 
 # PID
-pd_x = PID_Controller(5, 0.5, 0.0)
-pd_y = PID_Controller(5, 0.5, 0.0)
+pd_x = PID_Controller(10, 10, 0.0)
+pd_y = PID_Controller(10, 10, 0.0)
 pd_yaw = PID_Controller(5, 0.5, 0.0)
 DX_TARGET = 0.4
 DX_MOVE_BACK = 1
@@ -96,7 +96,7 @@ while robot.step(timestep) != -1:
     rpy = imu.getRollPitchYaw()
 
     lin_speed[0] = -pd_x.apply(positions[0]-POS[0])
-    lin_speed[1] = -pd_y.apply(positions[1]-POS[1])
+    lin_speed[1] = -pd_y.apply(positions[2]-POS[2])
     ang_speed = -pd_yaw.apply(rpy[-1] - YAW)
 
     locomotion.forward(lin_speed[0])
