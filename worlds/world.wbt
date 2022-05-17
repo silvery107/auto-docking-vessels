@@ -3,15 +3,15 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.31010236144204273 -0.9153676486757836 -0.2567851109115091 1.4394454657385762
-  position -3.2390149460698505 2.2208910478590727 1.0735940363928458
+  orientation -0.3670615653867356 -0.8695584731214526 -0.3303541569869026 1.5810167675743159
+  position -3.2664457677627277 2.7887118991506172 0.4558182062843055
 }
 TexturedBackground {
 }
 TexturedBackgroundLight {
 }
 RectangleArena {
-  floorSize 1.5 1.5
+  floorSize 2 2
 }
 Fluid {
   translation 0 0.05 0
@@ -21,7 +21,7 @@ Fluid {
         transparency 0.5
       }
       geometry Box {
-        size 1.5 0.1 1.5
+        size 2 0.1 2
       }
     }
   ]
@@ -29,8 +29,8 @@ Fluid {
   locked TRUE
 }
 Robot {
-  translation -0.528843 0.09 0.0267586
-  rotation 0 1 0 0.2617989999999993
+  translation -0.277811 0.09 0.602062
+  rotation 0 1 0 0.523603
   children [
     Propeller {
       shaftAxis 0 0 -1

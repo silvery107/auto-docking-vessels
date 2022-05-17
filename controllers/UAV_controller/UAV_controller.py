@@ -31,7 +31,7 @@ def sensor_factory(robot, timestep):
     return sensor_builder
 
 def near_zero(val):
-    if abs(val) < 1e-3:
+    if abs(val) < 0.05:
         return 0
     else:
         return val
@@ -88,12 +88,11 @@ e_stop = False
 
 # PID
 pd_dx = PID_Controller(1, 0.1, 0.0)
-pd_dy = PID_Controller(2, 0.5, 0.0)
-pd_phi = PID_Controller(0.8, 0.5, 0.0)
-DX_TARGET = 0.4
-DX_MOVE_BACK = 1
+pd_dy = PID_Controller(1.0, 0.1, 0.0)
+pd_phi = PID_Controller(1.0, 0.5, 0.0)
+DX_TARGET = 0.35
+DX_MOVE_BACK = 0.5
 DY_THRESHOLD = 0.1
-DY_OFFSET = 0.016
 PHI_THRESHOLD = 2/180*math.pi
 
 
@@ -117,26 +116,30 @@ while robot.step(timestep) != -1:
             rvecs, tvecs, _ = cv2.aruco.estimatePoseSingleMarkers(corners, 0.03, cameraMatrix, distCoeffs)
             rot_mat, _ = cv2.Rodrigues(rvecs[0]) # (3,3)
             rpy = rot_to_rpy(rot_mat)
-            yaw = float(rpy[-1])
-            distance1 = tvecs[0].squeeze() # (3,)
+            # print("yaw: %.3f"%rpy[1])
+            yaw = near_zero(float(rpy[1]))
+            distance = tvecs[0].squeeze() # (3,)
             # distance = (rot_mat @ distance).squeeze()
             # print(distance.shape)
-            dx = near_zero(distance1[-1] - DX_TARGET)
-            dy = near_zero(distance1[0]) 
-            phi = near_zero(math.atan2(dy, dx))
+            dx = (distance[-1] - DX_TARGET - 0.4)
+            dy = (distance[0]) 
+
+            # print("dx dy yaw: %.3f, %.3f, %.3f"%(dx+0.2, dy, yaw))
 
             lin_speed[1] = -pd_dy.apply(dy)
-            lin_speed[0] = -pd_dx.apply(dx)
-            # print("dx:", dx)
-            # print("dy:", dy)
-            # print("phi:", phi)
-            if dx>0:
-                if dy<DY_THRESHOLD or phi < PHI_THRESHOLD:
-                    ang_speed = -pd_phi.apply(yaw)
+            # lin_speed[0] = -pd_dx.apply(dx)
+            if dx > 0.0:
+                if dy<DY_THRESHOLD:# or phi < PHI_THRESHOLD:
                     # ang_speed = -pd_phi.apply(phi)
                     lin_speed[0] = -pd_dx.apply(dx)
                 else:
                     lin_speed[0] = -pd_dx.apply(dx-DX_MOVE_BACK)
+            else:
+                ang_speed = -pd_phi.apply(yaw)
+                # ang_speed = -pd_phi.apply(yaw)
+                lin_speed[0] = -pd_dx.apply(distance[-1] - DX_TARGET)
+
+            # print("command: %.3f, %.3f, %.3f"%(lin_speed[0], lin_speed[1], ang_speed))
 
     locomotion.forward(lin_speed[0])
     locomotion.moveLeft(lin_speed[1])
