@@ -13,6 +13,10 @@ This project is fonded by China National Innovation and Entrepreneurship Trainin
 - GPS and IMU filtering with the moving window filter
 
 
+https://user-images.githubusercontent.com/44640904/200079468-297da9ee-3118-4b4e-a9ad-d3602cf2e2f2.mp4
+
+
+
 ## Control Algorithm
 
 **Control I**: Minimize lateral distance $d_y$
