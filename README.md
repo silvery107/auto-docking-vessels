@@ -3,7 +3,10 @@
 This project presents a Webots simulation environment and a vision-based  autonomous docking algorithm for robotic vessels with a novel latching system that enables robotic boats to create dynamic united floating infrastructure while overcoming water disturbances. 
 
 This project is fonded by China National Innovation and Entrepreneurship Training Program.
-<img src="images/vessel_convensions.png" width="500">
+<p align="left">
+<img src="figures/vessel_convensions.png" height="240">
+<img src="figures/vessel_hardware.png" height="230">
+</p>
 
 ## Features
 - Docking scene simulation in Webots
@@ -26,7 +29,7 @@ https://user-images.githubusercontent.com/44640904/200079468-297da9ee-3118-4b4e-
 **Control III**: Minimize the angle $\psi$ between the entities
 
 
-<img src="images/control-demo.jpg" width="400">
+<img src="figures/control-demo.jpg" width="400">
 
 ## Dependencies
 - Webots R2021b or above
